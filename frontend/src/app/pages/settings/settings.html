@@ -1,0 +1,54 @@
+<div class="mw-page">
+  <h1>Settings</h1>
+  <p class="subtitle">Manage how and when MovieWatch notifies you.</p>
+
+  <div class="mw-grid settings-grid">
+    <mat-card class="mw-card">
+      <h3>Notification Channels</h3>
+      <form class="mw-form" (ngSubmit)="saveNotifications()">
+        <mat-form-field appearance="outline">
+          <mat-label>Notification email</mat-label>
+          <input matInput type="email" name="notifyEmail" [(ngModel)]="notifyEmail" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Telegram chat ID</mat-label>
+          <input matInput name="telegramChatId" [(ngModel)]="telegramChatId" placeholder="Optional" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+          {{ saving() ? 'Saving...' : 'Save' }}
+        </button>
+      </form>
+
+      <div class="test-actions">
+        <button mat-stroked-button (click)="sendTestEmail()">Send test email</button>
+        <button mat-stroked-button (click)="sendTestTelegram()">Send test Telegram</button>
+      </div>
+    </mat-card>
+
+    <mat-card class="mw-card">
+      <h3>Preferences</h3>
+      <form class="mw-form" (ngSubmit)="saveDefaults()">
+        <mat-form-field appearance="outline">
+          <mat-label>Theme</mat-label>
+          <mat-select name="theme" [(ngModel)]="theme">
+            <mat-option value="dark">Dark (cinematic)</mat-option>
+            <mat-option value="light">Light</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Default check interval</mat-label>
+          <mat-select name="defaultInterval" [(ngModel)]="defaultInterval">
+            @for (i of intervals; track i) {
+              <mat-option [value]="i">Every {{ i }} minute{{ i === 1 ? '' : 's' }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit">Save Preferences</button>
+      </form>
+    </mat-card>
+  </div>
+</div>

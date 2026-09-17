@@ -1,0 +1,31 @@
+h1 { margin: 0; }
+.subtitle { color: var(--mw-text-muted); margin: 0.25rem 0 1.5rem; }
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notif-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.notif-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--mw-text-muted);
+  margin-bottom: 0.35rem;
+
+  .type { text-transform: capitalize; font-weight: 600; color: var(--mw-text); }
+  .status.skipped { color: var(--mw-warn); }
+}
+
+.message {
+  white-space: pre-wrap;
+  font-family: inherit;
+  margin: 0;
+}

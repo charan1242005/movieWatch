@@ -1,0 +1,61 @@
+<div class="mw-page">
+  <div class="page-header">
+    <div>
+      <h1>Active Trackers</h1>
+      <p class="subtitle">Movie ticket availability, monitored automatically.</p>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/create">
+      <mat-icon>add</mat-icon>
+      New Tracker
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="mw-empty"><mat-spinner diameter="36"></mat-spinner></div>
+  } @else if (trackers().length === 0) {
+    <div class="mw-empty mw-card">
+      <mat-icon style="font-size: 48px; height: 48px; width: 48px;">theaters</mat-icon>
+      <h2>No trackers yet</h2>
+      <p>Create your first tracker to start monitoring ticket availability.</p>
+      <a mat-flat-button color="primary" routerLink="/create">Create Tracker</a>
+    </div>
+  } @else {
+    <div class="mw-grid">
+      @for (t of trackers(); track t.id) {
+        <mat-card class="mw-card tracker-card">
+          <div class="tracker-head">
+            <h3>{{ t.movie_title }}</h3>
+            <span class="mw-badge" [class]="t.status">
+              @if (t.status === 'active') { 🟢 Monitoring }
+              @else if (t.status === 'fulfilled') { ✅ Found } @else { ⏸ Stopped }
+            </span>
+          </div>
+
+          <ul class="tracker-meta">
+            <li><mat-icon inline>location_city</mat-icon> {{ t.city }}</li>
+            <li><mat-icon inline>event</mat-icon> {{ t.date }}</li>
+            <li><mat-icon inline>local_movies</mat-icon> {{ t.cinema }}</li>
+            @if (t.start_time && t.end_time) {
+              <li><mat-icon inline>schedule</mat-icon> {{ t.start_time }} - {{ t.end_time }}</li>
+            }
+            <li><mat-icon inline>event_seat</mat-icon> {{ t.seats_required }} seat(s){{ t.adjacent_seats ? ' (adjacent)' : '' }}</li>
+          </ul>
+
+          <p class="last-checked">Last checked: {{ lastCheckedLabel(t) }}</p>
+
+          <div class="tracker-actions">
+            @if (t.status === 'active') {
+              <button mat-stroked-button (click)="stop(t)" [disabled]="actingOn() === t.id">Stop</button>
+            } @else {
+              <button mat-flat-button color="primary" (click)="start(t)" [disabled]="actingOn() === t.id">Start</button>
+            }
+            <a mat-button [routerLink]="['/trackers', t.id]">Details</a>
+            <button mat-icon-button color="warn" (click)="remove(t)" aria-label="Delete tracker">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,29 @@
+<div class="mw-page">
+  <h1>Notifications</h1>
+  <p class="subtitle">All ticket-availability alerts sent to you.</p>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (notifications().length === 0) {
+    <div class="mw-card mw-empty">
+      <mat-icon style="font-size: 40px; height: 40px; width: 40px;">notifications_none</mat-icon>
+      <p>No notifications yet. They'll show up here once tickets become available.</p>
+    </div>
+  } @else {
+    <div class="notif-list">
+      @for (n of notifications(); track n.id) {
+        <mat-card class="mw-card notif-item">
+          <mat-icon>{{ iconFor(n.notification_type) }}</mat-icon>
+          <div class="notif-body">
+            <div class="notif-meta">
+              <span class="type">{{ n.notification_type }}</span>
+              <span class="status" [class.skipped]="n.status === 'skipped'">{{ n.status }}</span>
+              <span class="time">{{ n.sent_at | date:'short' }}</span>
+            </div>
+            <pre class="message">{{ n.message }}</pre>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
