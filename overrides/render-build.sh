@@ -11,4 +11,5 @@ cp /tmp/moviewatch-src/backend/Dockerfile ./backend/Dockerfile
 if [ -f overrides/backend/app/providers/public_page_provider.py ]; then cp overrides/backend/app/providers/public_page_provider.py backend/app/providers/public_page_provider.py; fi
 if [ -f overrides/backend/app/services/tracker_service.py ]; then cp overrides/backend/app/services/tracker_service.py backend/app/services/tracker_service.py; fi
 if [ -f overrides/backend/app/api/movies.py ]; then cp overrides/backend/app/api/movies.py backend/app/api/movies.py; fi
+if [ -f overrides/frontend/public/config.js ]; then cp overrides/frontend/public/config.js frontend/public/config.js; fi
 pip install -r backend/requirements.txt
