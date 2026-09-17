@@ -1,0 +1,59 @@
+﻿name: MovieWatch 24-7 Cloud Ticket Sniper
+
+on:
+  workflow_dispatch:
+    inputs:
+      movie:
+        description: "Movie Name or BMS URL/Code"
+        required: true
+        default: "Devara"
+      city:
+        description: "City Name"
+        required: true
+        default: "Visakhapatnam"
+      date:
+        description: "Date (YYYY-MM-DD)"
+        required: true
+        default: "2026-09-25"
+      theatres:
+        description: "Theatres separated by +"
+        required: true
+        default: "PVR CMR Central + INOX + Asian"
+      interval:
+        description: "Polling interval in seconds"
+        required: true
+        default: "30"
+  schedule:
+    # Optional scheduled run every 15 minutes as keep-alive fallback
+    - cron: '*/15 * * * *'
+
+jobs:
+  snipe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  # Maximum allowed GitHub Actions single job duration (6 hours)
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Run MovieWatch Ticket Sniper
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          cd backend
+          python sniper.py \
+            --movie "${{ github.event.inputs.movie || 'Devara' }}" \
+            --city "${{ github.event.inputs.city || 'Visakhapatnam' }}" \
+            --date "${{ github.event.inputs.date || '2026-09-25' }}" \
+            --theatres "${{ github.event.inputs.theatres || 'PVR CMR Central + INOX + Asian' }}" \
+            --interval "${{ github.event.inputs.interval || '30' }}"
