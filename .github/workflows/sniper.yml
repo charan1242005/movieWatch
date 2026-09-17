@@ -6,39 +6,46 @@ on:
       movie:
         description: "Movie Name or BMS URL/Code"
         required: true
-        default: "Devara"
+        default: "Mandaadi"
+
       city:
         description: "City Name"
         required: true
         default: "Visakhapatnam"
+
       date:
         description: "Date (YYYY-MM-DD)"
         required: true
-        default: "2026-09-25"
+        default: "2026-09-17"
+
       theatres:
         description: "Theatres separated by +"
         required: true
-        default: "PVR CMR Central + INOX + Asian"
+        default: "Jagadamba + Melody + AAA"
+
       interval:
         description: "Polling interval in seconds"
         required: true
         default: "30"
+
       telegram_bot_token:
         description: "Telegram Bot Token (optional)"
         required: false
         default: ""
+
       telegram_chat_id:
         description: "Telegram Chat ID (optional)"
         required: false
         default: ""
+
   schedule:
-    # Optional scheduled run every 15 minutes as keep-alive fallback
     - cron: '*/15 * * * *'
 
 jobs:
   snipe:
     runs-on: ubuntu-latest
-    timeout-minutes: 360  # Maximum allowed GitHub Actions single job duration (6 hours)
+    timeout-minutes: 360
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -58,11 +65,12 @@ jobs:
           PYTHONUNBUFFERED: "1"
           TELEGRAM_BOT_TOKEN: ${{ github.event.inputs.telegram_bot_token || secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ github.event.inputs.telegram_chat_id || secrets.TELEGRAM_CHAT_ID }}
+
         run: |
           cd backend
           python sniper.py \
-            --movie "${{ github.event.inputs.movie || 'Devara' }}" \
+            --movie "${{ github.event.inputs.movie || 'Mandaadi' }}" \
             --city "${{ github.event.inputs.city || 'Visakhapatnam' }}" \
-            --date "${{ github.event.inputs.date || '2026-09-25' }}" \
-            --theatres "${{ github.event.inputs.theatres || 'PVR CMR Central + INOX + Asian' }}" \
+            --date "${{ github.event.inputs.date || '2026-09-17' }}" \
+            --theatres "${{ github.event.inputs.theatres || 'Jagadamba + Melody + AAA' }}" \
             --interval "${{ github.event.inputs.interval || '30' }}"
