@@ -1,0 +1,5 @@
+{
+  "buildCommand": "tar -xzf moviewatch-source.tar.gz && cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist/frontend/browser",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
