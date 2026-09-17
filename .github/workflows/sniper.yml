@@ -1,4 +1,4 @@
-﻿name: MovieWatch 24-7 Cloud Ticket Sniper
+name: MovieWatch 24-7 Cloud Ticket Sniper
 
 on:
   workflow_dispatch:
@@ -23,6 +23,14 @@ on:
         description: "Polling interval in seconds"
         required: true
         default: "30"
+      telegram_bot_token:
+        description: "Telegram Bot Token (optional)"
+        required: false
+        default: ""
+      telegram_chat_id:
+        description: "Telegram Chat ID (optional)"
+        required: false
+        default: ""
   schedule:
     # Optional scheduled run every 15 minutes as keep-alive fallback
     - cron: '*/15 * * * *'
@@ -47,8 +55,8 @@ jobs:
 
       - name: Run MovieWatch Ticket Sniper
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ github.event.inputs.telegram_bot_token || secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ github.event.inputs.telegram_chat_id || secrets.TELEGRAM_CHAT_ID }}
         run: |
           cd backend
           python sniper.py \
