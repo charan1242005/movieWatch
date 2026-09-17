@@ -1,0 +1,83 @@
+<div class="mw-page">
+  <h1>Create Tracker</h1>
+  <p class="subtitle">MovieWatch will check for matching tickets automatically.</p>
+
+  <mat-card class="mw-card">
+    <form class="mw-form" (ngSubmit)="submit()" #f="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Movie</mat-label>
+        <input matInput name="movie_title" [(ngModel)]="form.movie_title" required placeholder="e.g. Avatar" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput name="city" [(ngModel)]="form.city" required placeholder="e.g. Visakhapatnam" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput type="date" name="date" [(ngModel)]="form.date" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Platform</mat-label>
+        <mat-select name="platform" [(ngModel)]="form.platform" required>
+          @for (p of platforms; track p.value) {
+            <mat-option [value]="p.value">{{ p.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cinema</mat-label>
+        <input matInput name="cinema" [(ngModel)]="form.cinema" placeholder="Any Cinema" />
+      </mat-form-field>
+
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Language</mat-label>
+          <input matInput name="language" [(ngModel)]="form.language" placeholder="e.g. English" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Format</mat-label>
+          <input matInput name="format" [(ngModel)]="form.format" placeholder="e.g. IMAX" />
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Time from</mat-label>
+          <input matInput type="time" name="start_time" [(ngModel)]="form.start_time" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Time to</mat-label>
+          <input matInput type="time" name="end_time" [(ngModel)]="form.end_time" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seats required</mat-label>
+        <input matInput type="number" min="1" name="seats_required" [(ngModel)]="form.seats_required" required />
+      </mat-form-field>
+
+      <mat-checkbox name="adjacent_seats" [(ngModel)]="form.adjacent_seats">
+        Require adjacent seats
+      </mat-checkbox>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Check frequency</mat-label>
+        <mat-select name="check_interval" [(ngModel)]="form.check_interval">
+          @for (i of intervals; track i) {
+            <mat-option [value]="i">Every {{ i }} minute{{ i === 1 ? '' : 's' }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="f.invalid || submitting()">
+        {{ submitting() ? 'Creating...' : 'Start Monitoring' }}
+      </button>
+    </form>
+  </mat-card>
+</div>

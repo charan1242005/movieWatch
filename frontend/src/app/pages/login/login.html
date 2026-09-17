@@ -1,0 +1,28 @@
+<div class="mw-page auth-page">
+  <mat-card class="mw-card auth-card">
+    <h1>Welcome back</h1>
+    <p class="subtitle">Sign in to manage your ticket trackers.</p>
+
+    <form class="mw-form" (ngSubmit)="submit()" #f="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" name="email" [(ngModel)]="email" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required />
+      </mat-form-field>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="f.invalid || loading()">
+        {{ loading() ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="switch">No account? <a routerLink="/register">Create one</a></p>
+  </mat-card>
+</div>

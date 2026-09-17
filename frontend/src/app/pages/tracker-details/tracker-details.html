@@ -1,0 +1,67 @@
+<div class="mw-page">
+  <a routerLink="/dashboard" class="back-link"><mat-icon inline>arrow_back</mat-icon> Back to dashboard</a>
+
+  @if (loading()) {
+    <div class="mw-empty"><mat-spinner diameter="36"></mat-spinner></div>
+  } @else if (tracker(); as t) {
+    <div class="detail-header">
+      <div>
+        <h1>{{ t.movie_title }}</h1>
+        <p class="subtitle">{{ t.city }} · {{ t.date }} · {{ t.cinema }}</p>
+      </div>
+      <span class="mw-badge" [class]="t.status">
+        @if (t.status === 'active') { 🟢 Monitoring } @else { ⏸ Stopped }
+      </span>
+    </div>
+
+    <div class="mw-grid detail-grid">
+      <mat-card class="mw-card">
+        <h3>Tracker Info</h3>
+        <dl>
+          <dt>Platform</dt><dd>{{ t.platform }}</dd>
+          <dt>Language / Format</dt><dd>{{ t.language || '—' }} / {{ t.format || '—' }}</dd>
+          <dt>Time window</dt><dd>{{ t.start_time || 'Any' }} - {{ t.end_time || 'Any' }}</dd>
+          <dt>Seats required</dt><dd>{{ t.seats_required }}{{ t.adjacent_seats ? ' (adjacent)' : '' }}</dd>
+          <dt>Check interval</dt><dd>Every {{ t.check_interval }} min</dd>
+          <dt>Last checked</dt><dd>{{ t.last_checked_at ? (t.last_checked_at | date:'short') : 'Never' }}</dd>
+        </dl>
+        <div class="actions">
+          @if (t.status === 'active') {
+            <button mat-stroked-button (click)="stop()">Stop Monitoring</button>
+          } @else {
+            <button mat-flat-button color="primary" (click)="start()">Start Monitoring</button>
+          }
+          <button mat-button (click)="load()">Refresh</button>
+        </div>
+      </mat-card>
+
+      <mat-card class="mw-card shows-card">
+        <h3>Available Shows</h3>
+        @if (shows().length === 0) {
+          <p class="mw-empty">No shows found yet for this configuration.</p>
+        } @else {
+          <table class="shows-table">
+            <thead>
+              <tr><th>Cinema</th><th>Time</th><th>Seats</th><th>Adjacent</th><th></th></tr>
+            </thead>
+            <tbody>
+              @for (s of shows(); track s.id) {
+                <tr [class.match]="isMatch(s, t)">
+                  <td>{{ s.cinema }}</td>
+                  <td>{{ s.show_time }}</td>
+                  <td>{{ s.available_seats }}</td>
+                  <td>{{ s.adjacent_available === null ? 'Unknown' : (s.adjacent_available ? 'Yes' : 'No') }}</td>
+                  <td>
+                    @if (s.booking_url && s.available_seats > 0) {
+                      <a mat-flat-button color="primary" [href]="s.booking_url" target="_blank" rel="noopener">Book Now</a>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </mat-card>
+    </div>
+  }
+</div>

@@ -55,6 +55,7 @@ jobs:
 
       - name: Run MovieWatch Ticket Sniper
         env:
+          PYTHONUNBUFFERED: "1"
           TELEGRAM_BOT_TOKEN: ${{ github.event.inputs.telegram_bot_token || secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ github.event.inputs.telegram_chat_id || secrets.TELEGRAM_CHAT_ID }}
         run: |

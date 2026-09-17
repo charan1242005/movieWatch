@@ -1,0 +1,128 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  --mw-bg: #0b0d14;
+  --mw-surface: #141826;
+  --mw-surface-alt: #1b2032;
+  --mw-border: #2a3145;
+  --mw-text: #f2f4fb;
+  --mw-text-muted: #9aa3bd;
+  --mw-accent: #ff5c7a;
+  --mw-accent-2: #6c8bff;
+  --mw-success: #35d68f;
+  --mw-warn: #ffb84d;
+  --mw-danger: #ff5c5c;
+}
+
+body.light-theme {
+  --mw-bg: #f5f6fb;
+  --mw-surface: #ffffff;
+  --mw-surface-alt: #eef0f8;
+  --mw-border: #dfe3f0;
+  --mw-text: #14172a;
+  --mw-text-muted: #5b6178;
+  --mw-accent: #e2385a;
+  --mw-accent-2: #3a5bff;
+  --mw-success: #1fa971;
+  --mw-warn: #b8790a;
+  --mw-danger: #cf3a3a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--mw-bg);
+  color: var(--mw-text);
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mw-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.mw-card {
+  background: var(--mw-surface);
+  border: 1px solid var(--mw-border);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.mw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.mw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mw-badge.active { background: rgba(53, 214, 143, 0.15); color: var(--mw-success); }
+.mw-badge.stopped { background: rgba(154, 163, 189, 0.15); color: var(--mw-text-muted); }
+.mw-badge.fulfilled { background: rgba(108, 139, 255, 0.15); color: var(--mw-accent-2); }
+
+.mw-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--mw-text-muted);
+}
+
+.mw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 480px;
+}
+
+.mw-full-width {
+  width: 100%;
+}

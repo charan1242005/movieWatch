@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: moviewatch
+      POSTGRES_PASSWORD: moviewatch
+      POSTGRES_DB: moviewatch
+    ports:
+      - "5432:5432"
+    volumes:
+      - moviewatch_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moviewatch"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://moviewatch:moviewatch@postgres:5432/moviewatch
+      CORS_ORIGINS: http://localhost:4200
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      API_BASE_URL: http://localhost:8000
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  moviewatch_pgdata:

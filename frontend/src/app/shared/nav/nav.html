@@ -1,0 +1,25 @@
+<mat-toolbar class="nav-toolbar">
+  <a routerLink="/dashboard" class="brand">
+    <mat-icon>local_movies</mat-icon>
+    <span>MovieWatch</span>
+  </a>
+
+  @if (auth.isLoggedIn()) {
+    <nav class="links">
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/create" routerLinkActive="active">New Tracker</a>
+      <a routerLink="/notifications" routerLinkActive="active">Notifications</a>
+      <a routerLink="/settings" routerLinkActive="active">Settings</a>
+    </nav>
+  }
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button (click)="toggleTheme()" [attr.aria-label]="'Toggle theme'">
+    <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
+  @if (auth.isLoggedIn()) {
+    <button mat-stroked-button (click)="logout()">Logout</button>
+  }
+</mat-toolbar>
